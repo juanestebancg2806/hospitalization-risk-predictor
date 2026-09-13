@@ -31,6 +31,7 @@ services:
       MODEL_PATH: /app/model/modelo_riesgo_hospitalizacion_v1.pkl
       LOG_LEVEL: DEBUG
       WATCHFILES_FORCE_POLLING: "true"
+      CORS_ORIGINS: "http://localhost:5173,http://127.0.0.1:5173"
     healthcheck:
       test:
         [

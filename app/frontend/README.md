@@ -1,17 +1,37 @@
 # Frontend (Vite + React + TypeScript + Tailwind)
 
-Hello-world scaffold. HTTP client is ready; product UI not built yet.
+MVP entry UI with health check, routing, and form-validation packages ready.
 
 ## Stack
 
-- React + TypeScript
-- Vite
-- Tailwind CSS v4 via `@tailwindcss/vite`
-- Axios (`src/api/httpClient.ts` singleton + interceptors)
+- React + TypeScript + Vite
+- Tailwind CSS v4 (`@tailwindcss/vite`) + IBM Plex (clinical cartography)
+- Axios singleton (`src/api/httpClient.ts`)
+- react-router-dom (layout + `Outlet`, error/404 routes)
+- zod + react-hook-form + `@hookform/resolvers`
+
+## Architecture
+
+```text
+pages/          # Route composition only
+hooks/          # UI state + orchestration
+api/            # HTTP + ApiClientError mapping + shared status types
+schemas/        # Zod contracts
+components/     # Presentational UI
+app/router.tsx  # Layout route → Outlet; errorElement; 404
+```
+
+Flow: **pages → hooks/components → api/schemas**.
+
+## Routes
+
+| Path | Page |
+|------|------|
+| `/` | Home (MVP intro + health) |
+| `/predict` | Prediction wizard (placeholder) |
+| `*` | 404 |
 
 ## Environment
-
-Copy the example env file and adjust the backend URL if needed:
 
 ```bash
 cp .env.example .env
@@ -31,10 +51,10 @@ npm install
 npm run dev
 ```
 
-## API client usage
+## Predict form
 
-```ts
-import { httpClient } from './api/httpClient'
+Route `/predict` — multi-step wizard (`PredictWizard` + `usePredictWizard`):
 
-const { data } = await httpClient.get('/health')
-```
+1. Sociodemográfico → antecedentes → clínica → tratamiento → revisión
+2. **Generar paciente aleatorio** fills the form, jumps to review, and shows the JSON payload
+3. Submit calls `POST /predict` via `api/predict.ts`

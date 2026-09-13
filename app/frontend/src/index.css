@@ -1,1 +1,47 @@
 @import "tailwindcss";
+
+/*
+  Palette: "Clinical cartography"
+  Cool institutional greens + ink — not SaaS purple, cream/terracotta, or neon blue.
+*/
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Surfaces */
+  --color-canvas: #e8ece9;
+  --color-surface: #f4f6f4;
+  --color-surface-raised: #fcfdfc;
+
+  /* Text */
+  --color-ink: #1a2421;
+  --color-ink-muted: #5a6a64;
+  --color-ink-faint: #8a9691;
+
+  /* Structure */
+  --color-line: #c2cbc6;
+  --color-line-strong: #9aa8a1;
+
+  /* Brand (teal / pine) */
+  --color-brand: #0f766e;
+  --color-brand-strong: #0a5c56;
+  --color-brand-soft: #d5ebe7;
+  --color-brand-fog: #eef6f4;
+
+  /* Secondary accent — deep pine, not purple */
+  --color-pine: #2f5d50;
+
+  /* Risk semantics (muted, clinical — not alarm-neon) */
+  --color-risk-high: #a84538;
+  --color-risk-high-soft: #f3e4e1;
+  --color-risk-mid: #b8860b;
+  --color-risk-mid-soft: #f5edd6;
+  --color-risk-low: #4f6f52;
+  --color-risk-low-soft: #e2ebe3;
+}
+
+@layer base {
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+  }
+}
