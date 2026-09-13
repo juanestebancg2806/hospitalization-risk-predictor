@@ -6,7 +6,9 @@ ML pipeline to predict 12-month hospitalization risk in diabetes and hypertensio
 
 ```text
 app/
-  backend/   # FastAPI + uv (pyproject.toml / uv.lock)
+  backend/   # FastAPI layered app (uv + Docker)
+    main.py  # thin entry
+    app/     # core / schemas / services / api
   model/     # Trained pipeline (.pkl)
   frontend/  # (future)
 notebooks/   # EDA and training
@@ -16,17 +18,37 @@ notebooks/   # EDA and training
 
 Requires [Docker](https://docs.docker.com/get-docker/) with Compose v2.
 
-From the repository root:
+Compose files live next to the API in `app/backend/` (with the Dockerfile). Run from that directory:
+
+```bash
+cd app/backend
+```
+
+### Production-like (no hot-reload)
 
 ```bash
 docker compose up --build
 ```
 
-If port 8000 is already in use on your machine:
+If port 8000 is already in use:
 
 ```bash
 API_PORT=8001 docker compose up --build
 ```
+
+### Development (hot-reload)
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+If port 8000 is busy:
+
+```bash
+API_PORT=8001 docker compose -f docker-compose.dev.yml up --build
+```
+
+Code in `app/backend/` reloads automatically. Rebuild only when dependencies change.
 
 API (default host port `8000`):
 
@@ -38,9 +60,11 @@ Stop:
 
 ```bash
 docker compose down
+# or
+docker compose -f docker-compose.dev.yml down
 ```
 
-The model file is mounted from `app/model/` into the container (`MODEL_PATH`). Dependencies are locked with **uv** (`app/backend/uv.lock`) and installed inside the image for reproducible runs on any OS.
+The model is mounted from `../model` (`app/model/`). Dependencies are locked with **uv** (`uv.lock`) and installed inside the image.
 
 ## Backend (local uv, optional)
 
