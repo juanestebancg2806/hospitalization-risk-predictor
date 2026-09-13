@@ -19,6 +19,7 @@ class Settings:
         "Predicts 12-month hospitalization risk from clinical/demographic features."
     )
     app_version: str = "0.1.0"
+    log_level: str = os.getenv("LOG_LEVEL", "INFO").upper()
 
 
 settings = Settings()

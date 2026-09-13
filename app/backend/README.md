@@ -17,18 +17,15 @@ app/
   core/                 # Shared kernel (no FastAPI, no ML)
     config.py
     exceptions.py
+    logging.py          # Stdlib logging setup (UTC ISO format)
   schemas/              # Shared contracts (Pydantic DTOs)
-    common.py           # ErrorResponse, HealthResponse
-    prediction.py       # PatientFeatures, PredictionResponse
   services/             # Application / use-case logic
-    predictor.py        # Load model + infer
   api/                  # HTTP adapters only
-    router.py           # Aggregates route modules
-    deps.py             # Depends() providers
-    errors.py           # Exception → ErrorResponse
+    middleware.py       # Request timing logs
+    deps.py
+    errors.py
+    router.py
     routes/
-      health.py
-      predict.py
 ```
 
 ### Boundaries
@@ -41,6 +38,13 @@ app/
 | `api` | `core`, `schemas`, `services`, FastAPI | — |
 
 Dependency flow: **api → services → schemas/core**.
+
+### Logging
+
+- Format: `UTC ISO-8601 | LEVEL | logger.name | message`
+- Level via `LOG_LEVEL` (`DEBUG` in `docker-compose.dev.yml`, `INFO` otherwise)
+- Request middleware logs method/path/status/duration (`/health` at DEBUG)
+- Predictions log score/class only — not full clinical payloads
 
 ### Error responses
 
