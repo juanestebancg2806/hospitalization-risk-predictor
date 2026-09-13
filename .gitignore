@@ -1,2 +1,4 @@
 # Raw data (too large for git)
 notebooks/dataset_ofuscado_colombia_diabetes_hipertension.csv
+
+.DS_Store
