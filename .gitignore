@@ -1,4 +1,16 @@
 # Raw data (too large for git)
 notebooks/dataset_ofuscado_colombia_diabetes_hipertension.csv
 
+# Virtual environments (created by uv locally; Docker builds its own)
+.venv/
+**/.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
 .DS_Store

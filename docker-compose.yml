@@ -1,0 +1,25 @@
+services:
+  api:
+    build:
+      context: ./app/backend
+      dockerfile: Dockerfile
+    ports:
+      # Override host port if 8000 is busy: API_PORT=8001 docker compose up --build
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      # Mount the trained model so rebuilds are not needed when the .pkl changes
+      - ./app/model:/app/model:ro
+    environment:
+      MODEL_PATH: /app/model/modelo_riesgo_hospitalizacion_v1.pkl
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
