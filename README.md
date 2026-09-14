@@ -14,7 +14,7 @@ app/
   model/             # Trained pipeline (.pkl)
   frontend/          # Vite + React. See app/frontend/README.md
   infra/             # Terraform. See app/infra/README.md
-.github/             # Prod deploy + OIDC. See .github/README.md
+.github/             # Prod deploy + OIDC. See .github/DEPLOY.md
 notebooks/           # EDA and training
 ```
 
@@ -62,7 +62,7 @@ Bootstrap is **two Terraform applies** plus one Docker push (`linux/amd64`, `--p
 | Piece | Notes |
 |-------|--------|
 | Infra | [`app/infra/README.md`](app/infra/README.md) — first-time apply |
-| CI/CD | [`.github/README.md`](.github/README.md) — OIDC (immutable `sub` after 2026-07-15), env `prod` |
+| CI/CD | [`.github/DEPLOY.md`](.github/DEPLOY.md) — OIDC (immutable `sub` after 2026-07-15), env `prod` |
 | Lambda image | [`app/backend/README.md`](app/backend/README.md) — `Dockerfile.lambda`, CORS on Function URL |
 
 Do not set `CORS_ORIGINS` on the Lambda env to the CloudFront URL; Function URL CORS already allows that origin.

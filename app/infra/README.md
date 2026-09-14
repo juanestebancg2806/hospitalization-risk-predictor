@@ -27,7 +27,7 @@ app/infra/
 - **Image build/push is not Terraform.** Terraform only consumes `lambda_image_uri`.
 - **SPA files are not Terraform.** GitHub Actions (or a local `s3 sync`) publishes `dist/`.
 - **CORS in prod** is on the **Lambda Function URL**, not `CORS_ORIGINS` on the function. Setting both duplicates `Access-Control-Allow-Origin`.
-- **OIDC / GitHub IAM role** are **not** in this stack. See [`.github/README.md`](../../.github/README.md).
+- **OIDC / GitHub IAM role** are **not** in this stack. See [`.github/DEPLOY.md`](../../.github/DEPLOY.md).
 
 After Lambda exists, **GitHub Actions** updates the image. A later `terraform apply` with `lambda_image_uri = ":v1"` will **roll the function back**. Either stop applying image changes, or update `tfvars` to the current URI before apply.
 
@@ -106,7 +106,7 @@ Expect `model_loaded: true` (first call may take ~30s — cold start).
 
 ### 5. GitHub + SPA
 
-Set Actions variables from outputs (see [`.github/README.md`](../../.github/README.md)). Then run **Deploy frontend**, or:
+Set Actions variables from outputs (see [`.github/DEPLOY.md`](../../.github/DEPLOY.md)). Then run **Deploy frontend**, or:
 
 ```bash
 cd ../frontend

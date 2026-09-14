@@ -72,4 +72,4 @@ Not Terraform. After infra exists, [`.github/workflows/deploy-frontend.yml`](../
 
 `npm ci` → build with `VITE_API_BASE_URL` → `s3 sync` (hashed assets immutable; `index.html` no-cache) → CloudFront `/*` invalidation.
 
-Variables: [`.github/README.md`](../../.github/README.md). After destroy/re-apply, update `VITE_API_BASE_URL` and `CLOUDFRONT_DISTRIBUTION_ID`.
+Variables: [`.github/DEPLOY.md`](../../.github/DEPLOY.md). After destroy/re-apply, update `VITE_API_BASE_URL` and `CLOUDFRONT_DISTRIBUTION_ID`.
