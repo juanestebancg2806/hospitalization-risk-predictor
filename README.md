@@ -10,7 +10,8 @@ app/
     main.py  # thin entry
     app/     # core / schemas / services / api
   model/     # Trained pipeline (.pkl)
-  frontend/  # (future)
+  frontend/  # Vite + React
+  infra/     # Terraform (AWS: Lambda API + static site)
 notebooks/   # EDA and training
 ```
 

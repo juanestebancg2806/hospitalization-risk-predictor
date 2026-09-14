@@ -1,0 +1,8 @@
+aws_region         = "us-east-1"
+project            = "hospitalization-risk"
+environment        = "prod"
+lambda_memory_mb   = 1024
+log_retention_days = 14
+
+# After the first ECR push:
+# lambda_image_uri = "123456789012.dkr.ecr.us-east-1.amazonaws.com/hospitalization-risk-prod-api:v1"

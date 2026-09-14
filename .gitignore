@@ -22,3 +22,10 @@ dist/
 **/dist/
 .env
 .env.*.local
+
+# Terraform (also see app/infra/.gitignore)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
