@@ -14,12 +14,9 @@ import type { PredictionResponse } from '../schemas/api'
 import type { PatientFeatures } from '../schemas/patient'
 
 const emptyDefaults = {
-  departamento: '',
-  zona: '',
   sexo: '',
   edad_anios: NaN,
   grupo_edad: '',
-  nivel_socioeconomico: '',
   regimen_afiliacion: '',
   nivel_educativo: '',
   estado_civil: '',

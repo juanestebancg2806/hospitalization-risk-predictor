@@ -1,28 +1,5 @@
 import type { PatientFeatures } from '../schemas/patient'
 
-/** Categories learned by the trained OneHotEncoder (exact strings). */
-export const DEPARTAMENTOS = [
-  'Antioquia',
-  'Atlántico',
-  'Bogotá D.C.',
-  'Bolívar',
-  'Boyacá',
-  'Caldas',
-  'Cauca',
-  'Cesar',
-  'Cundinamarca',
-  'Córdoba',
-  'Huila',
-  'Magdalena',
-  'Meta',
-  'Nariño',
-  'Norte de Santander',
-  'Risaralda',
-  'Santander',
-  'Tolima',
-  'Valle del Cauca',
-] as const
-
 export type SelectOption = { value: string | number; label: string }
 
 function opts(values: readonly string[]): SelectOption[] {
@@ -57,25 +34,13 @@ export type FormStep = {
   fields: FieldDef[]
 }
 
-/** Multi-step grouping — keeps the 45 fields usable without a wall of inputs. */
+/** Multi-step grouping — 42 model inputs without a wall of fields. */
 export const FORM_STEPS: FormStep[] = [
   {
     id: 'contexto',
     title: 'Contexto sociodemográfico',
-    description: 'Ubicación, demografía y condiciones de vida.',
+    description: 'Demografía y condiciones de vida.',
     fields: [
-      {
-        name: 'departamento',
-        label: 'Departamento',
-        kind: 'select',
-        options: opts(DEPARTAMENTOS),
-      },
-      {
-        name: 'zona',
-        label: 'Zona',
-        kind: 'select',
-        options: opts(['Rural', 'Urbana']),
-      },
       {
         name: 'sexo',
         label: 'Sexo',
@@ -98,12 +63,6 @@ export const FORM_STEPS: FormStep[] = [
         kind: 'select',
         options: opts(['18_44', '45_59', '60_74', '75_mas']),
         hint: 'Debe ser coherente con la edad.',
-      },
-      {
-        name: 'nivel_socioeconomico',
-        label: 'Nivel socioeconómico',
-        kind: 'select',
-        options: opts(['Alto', 'Bajo', 'Medio']),
       },
       {
         name: 'regimen_afiliacion',

@@ -73,12 +73,9 @@ Do not set `CORS_ORIGINS` on the Lambda env to the CloudFront URL; Function URL 
 curl -s http://localhost:8000/predict \
   -H "Content-Type: application/json" \
   -d '{
-    "departamento": "Bogotá D.C.",
-    "zona": "Urbana",
     "sexo": "F",
     "edad_anios": 62,
     "grupo_edad": "60_74",
-    "nivel_socioeconomico": "Medio",
     "regimen_afiliacion": "Contributivo",
     "nivel_educativo": "Secundaria",
     "estado_civil": "Casado_union_libre",

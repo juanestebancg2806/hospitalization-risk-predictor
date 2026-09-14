@@ -14,20 +14,15 @@ const requiredSelect = <const T extends readonly [string, ...string[]]>(
 const numberMsg = { error: 'Ingresa un número válido' } as const
 const nonNeg = z.number(numberMsg).min(0, 'Debe ser mayor o igual a 0')
 const positive = z.number(numberMsg).gt(0, 'Debe ser mayor que 0')
-const requiredText = z.string().min(1, 'Este campo es obligatorio')
-
 /**
  * Patient payload schema — mirrors backend `PatientFeatures`.
  * Pair numeric fields with RHF `valueAsNumber` (see FieldControl).
  * Validation messages are in Spanish.
  */
 export const patientFeaturesSchema = z.object({
-  departamento: requiredText,
-  zona: requiredSelect(['Rural', 'Urbana']),
   sexo: requiredSelect(['F', 'M']),
   edad_anios: nonNeg,
   grupo_edad: requiredSelect(['18_44', '45_59', '60_74', '75_mas']),
-  nivel_socioeconomico: requiredSelect(['Alto', 'Bajo', 'Medio']),
   regimen_afiliacion: requiredSelect([
     'Contributivo',
     'Especial',

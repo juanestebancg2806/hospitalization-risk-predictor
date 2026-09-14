@@ -1,5 +1,4 @@
 import type { PatientFeatures } from '../schemas/patient'
-import { DEPARTAMENTOS } from './patientFormMeta'
 
 function pick<T>(items: readonly T[]): T {
   return items[Math.floor(Math.random() * items.length)]!
@@ -37,12 +36,9 @@ export function createRandomPatient(): PatientFeatures {
   const imc = rand(22, 38, 1)
 
   return {
-    departamento: pick(DEPARTAMENTOS),
-    zona: pick(['Rural', 'Urbana'] as const),
     sexo: pick(['F', 'M'] as const),
     edad_anios: edad,
     grupo_edad: grupoEdadFromAge(edad),
-    nivel_socioeconomico: pick(['Alto', 'Bajo', 'Medio'] as const),
     regimen_afiliacion: pick([
       'Contributivo',
       'Especial',

@@ -8,14 +8,11 @@ from pydantic import BaseModel, Field
 
 
 class PatientFeatures(BaseModel):
-    """Raw patient features expected by the trained pipeline (45 columns)."""
+    """Raw patient features expected by the trained pipeline (42 columns)."""
 
-    departamento: str
-    zona: Literal["Rural", "Urbana"]
     sexo: Literal["F", "M"]
     edad_anios: float = Field(ge=0)
     grupo_edad: Literal["18_44", "45_59", "60_74", "75_mas"]
-    nivel_socioeconomico: Literal["Alto", "Bajo", "Medio"]
     regimen_afiliacion: Literal["Contributivo", "Especial", "Subsidiado"]
     nivel_educativo: Literal[
         "Primaria",
