@@ -1,83 +1,71 @@
 # hospitalization-risk-predictor
 
-ML pipeline to predict 12-month hospitalization risk in diabetes and hypertension patients using clinical, demographic, and utilization data. Includes EDA, model comparison (Logistic Regression, Random Forest, XGBoost, LightGBM) with class imbalance handling, and a production-ready API for deployment.
+ML pipeline to predict 12-month hospitalization risk in diabetes and hypertension patients using clinical, demographic, and utilization data. Includes EDA, model comparison (Logistic Regression, Random Forest, XGBoost, LightGBM) with class imbalance handling, a FastAPI service, a React SPA, and AWS prod (Lambda Function URL + S3/CloudFront).
 
 ## Project layout
 
 ```text
 app/
-  backend/   # FastAPI layered app (uv + Docker)
-    main.py  # uvicorn + Lambda handler (Mangum)
+  backend/           # FastAPI (uv + Docker). See app/backend/README.md
+    main.py          # uvicorn entry (no Mangum)
+    handler.py       # Lambda adapter (Mangum)
     Dockerfile.lambda
-    app/     # core / schemas / services / api
-  model/     # Trained pipeline (.pkl)
-  frontend/  # Vite + React
-  infra/     # Terraform (AWS: Lambda API + static site)
-.github/workflows/  # prod deploy on push to main
-notebooks/   # EDA and training
+    app/             # core / schemas / services / api
+  model/             # Trained pipeline (.pkl)
+  frontend/          # Vite + React. See app/frontend/README.md
+  infra/             # Terraform. See app/infra/README.md
+.github/             # Prod deploy + OIDC. See .github/README.md
+notebooks/           # EDA and training
 ```
 
-## Backend (Docker Compose)
+## Local development
 
-Requires [Docker](https://docs.docker.com/get-docker/) with Compose v2.
+### API (Docker Compose)
 
-Compose files live next to the API in `app/backend/` (with the Dockerfile). Run from that directory:
-
-```bash
-cd app/backend
-```
-
-### Production-like (no hot-reload)
+Requires [Docker](https://docs.docker.com/get-docker/) with Compose v2. From `app/backend/`:
 
 ```bash
-docker compose up --build
-```
-
-If port 8000 is already in use:
-
-```bash
-API_PORT=8001 docker compose up --build
-```
-
-### Development (hot-reload)
-
-```bash
-docker compose -f docker-compose.dev.yml up --build
-```
-
-If port 8000 is busy:
-
-```bash
+docker compose up --build                                    # production-like
+docker compose -f docker-compose.dev.yml up --build          # hot-reload
 API_PORT=8001 docker compose -f docker-compose.dev.yml up --build
 ```
-
-Code in `app/backend/` reloads automatically. Rebuild only when dependencies change.
-
-API (default host port `8000`):
 
 - Docs: http://localhost:8000/docs
 - Health: http://localhost:8000/health
 - Predict: `POST http://localhost:8000/predict`
 
-Stop:
+The model is mounted from `app/model/`. Dependencies are locked with **uv**. Stop with `docker compose down`.
 
-```bash
-docker compose down
-# or
-docker compose -f docker-compose.dev.yml down
-```
-
-The model is mounted from `../model` (`app/model/`). Dependencies are locked with **uv** (`uv.lock`) and installed inside the image.
-
-## Backend (local uv, optional)
-
-`.venv` is local-only and **gitignored** — do not commit it. Docker builds its own environment from the lockfile.
+Optional, without Docker (`.venv` is gitignored):
 
 ```bash
 cd app/backend
 uv sync
 uv run uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
+
+### SPA
+
+```bash
+cd app/frontend
+cp .env.example .env   # VITE_API_BASE_URL=http://localhost:8000
+npm install
+npm run dev
+```
+
+The UI gates on `GET /health` (`model_loaded`) before prediction. Details: [`app/frontend/README.md`](app/frontend/README.md).
+
+## AWS production
+
+Bootstrap is **two Terraform applies** plus one Docker push (`linux/amd64`, `--provenance=false`). Then GitHub Actions deploys on push to `main`.
+
+| Piece | Notes |
+|-------|--------|
+| Infra | [`app/infra/README.md`](app/infra/README.md) — first-time apply |
+| CI/CD | [`.github/README.md`](.github/README.md) — OIDC (immutable `sub` after 2026-07-15), env `prod` |
+| Lambda image | [`app/backend/README.md`](app/backend/README.md) — `Dockerfile.lambda`, CORS on Function URL |
+
+Do not set `CORS_ORIGINS` on the Lambda env to the CloudFront URL; Function URL CORS already allows that origin.
 
 ## Example prediction
 

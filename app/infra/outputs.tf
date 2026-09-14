@@ -17,3 +17,18 @@ output "ecr_repository_url" {
   description = "Push the Lambda container image here."
   value       = module.api.ecr_repository_url
 }
+
+output "ecr_repository_name" {
+  description = "ECR repository name (GitHub var ECR_REPOSITORY)."
+  value       = module.api.ecr_repository_name
+}
+
+output "function_name" {
+  description = "Lambda function name (GitHub var LAMBDA_FUNCTION_NAME). Empty until apply #2."
+  value       = module.api.function_name
+}
+
+output "distribution_id" {
+  description = "CloudFront distribution id (GitHub var CLOUDFRONT_DISTRIBUTION_ID)."
+  value       = module.frontend.distribution_id
+}

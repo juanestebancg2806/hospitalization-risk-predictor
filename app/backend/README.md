@@ -74,3 +74,29 @@ uv run uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 With the Compose **dev** file, this folder is bind-mounted and uvicorn reloads on save. Rebuild only when dependencies change (`uv add` / `uv.lock`).
+
+Vite (`http://localhost:5173`) is allowed via `CORS_ORIGINS` in Compose (FastAPI `CORSMiddleware` in `app/main.py`). Defaults in `app/core/config.py` are the same if the env var is unset.
+
+## AWS Lambda
+
+Production is a **container image** on Lambda with a **Function URL** (`authorization_type = NONE`). Local Uvicorn must **not** import Mangum: Compose uses `main:app`; Lambda uses `handler.py` (`Mangum`).
+
+| File | Role |
+|------|------|
+| `Dockerfile` + Compose | Local API on port 8000 |
+| `Dockerfile.lambda` | Image for ECR / Lambda (`CMD ["handler.handler"]`) |
+| `handler.py` | Mangum adapter only |
+
+Build context is **`app/`** (backend + `model/`). `uv export --no-emit-project` installs dependencies only; the app is `COPY`’d in.
+
+**CORS in prod** is configured on the Function URL in Terraform (`modules/lambda_api`), origin = CloudFront URL. Do **not** also set `CORS_ORIGINS` on the Lambda environment to that URL — browsers then see two `Access-Control-Allow-Origin` values.
+
+Image must be `linux/amd64` and a **single Docker/OCI image manifest** (not a Buildx index with attestations):
+
+```bash
+# from app/
+docker build --platform linux/amd64 --provenance=false --sbom=false \
+  -f backend/Dockerfile.lambda -t api:lambda .
+```
+
+GitHub Actions (`deploy-backend.yml`) uses the same Dockerfile and flags. Infra bootstrap (first ECR push + two Terraform applies) is in [`app/infra/README.md`](../infra/README.md).

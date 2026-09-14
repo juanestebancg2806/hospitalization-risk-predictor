@@ -110,9 +110,10 @@ resource "aws_lambda_function" "api" {
 
   environment {
     variables = {
-      MODEL_PATH   = var.model_path
-      CORS_ORIGINS = join(",", local.cors_allow_origins)
-      LOG_LEVEL    = "INFO"
+      MODEL_PATH = var.model_path
+      LOG_LEVEL  = "INFO"
+      # Do not set CORS_ORIGINS here. Function URL cors {} already emits
+      # Access-Control-Allow-Origin; FastAPI would duplicate it and browsers fail.
     }
   }
 
