@@ -11,7 +11,8 @@ locals {
 # --- Private bucket (no website hosting; CloudFront is the only reader) ---
 
 resource "aws_s3_bucket" "site" {
-  bucket = local.bucket_name
+  bucket        = local.bucket_name
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_ownership_controls" "site" {

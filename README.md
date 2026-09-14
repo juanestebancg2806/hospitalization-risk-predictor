@@ -7,11 +7,13 @@ ML pipeline to predict 12-month hospitalization risk in diabetes and hypertensio
 ```text
 app/
   backend/   # FastAPI layered app (uv + Docker)
-    main.py  # thin entry
+    main.py  # uvicorn + Lambda handler (Mangum)
+    Dockerfile.lambda
     app/     # core / schemas / services / api
   model/     # Trained pipeline (.pkl)
   frontend/  # Vite + React
   infra/     # Terraform (AWS: Lambda API + static site)
+.github/workflows/  # prod deploy on push to main
 notebooks/   # EDA and training
 ```
 
