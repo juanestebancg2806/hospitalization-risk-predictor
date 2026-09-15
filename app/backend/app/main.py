@@ -21,15 +21,19 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info(
-        "starting app version=%s log_level=%s model_path=%s",
+        "starting app version=%s log_level=%s model_path=%s meta_path=%s",
         settings.app_version,
         settings.log_level,
         settings.model_path,
+        settings.model_meta_path,
     )
-    predictor = RiskPredictor(settings.model_path)
+    predictor = RiskPredictor(settings.model_path, settings.model_meta_path)
     predictor.load()
     app.state.predictor = predictor
-    logger.info("application startup complete")
+    logger.info(
+        "application startup complete threshold=%s",
+        predictor.threshold,
+    )
     yield
     logger.info("shutting down application")
     predictor.unload()

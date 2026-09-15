@@ -60,3 +60,29 @@ class ModelFileNotFoundError(AppError):
             "Model file not found",
             details={"model_path": model_path},
         )
+
+
+class ModelMetaNotFoundError(AppError):
+    """Raised when the model metadata JSON cannot be found on disk."""
+
+    code = "model_meta_not_found"
+    status_code = 500
+
+    def __init__(self, meta_path: str) -> None:
+        super().__init__(
+            "Model metadata file not found",
+            details={"meta_path": meta_path},
+        )
+
+
+class InvalidModelMetaError(AppError):
+    """Raised when model metadata is present but missing/invalid fields."""
+
+    code = "invalid_model_meta"
+    status_code = 500
+
+    def __init__(self, meta_path: str, reason: str) -> None:
+        super().__init__(
+            "Model metadata is invalid",
+            details={"meta_path": meta_path, "reason": reason},
+        )

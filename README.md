@@ -11,7 +11,7 @@ app/
     handler.py       # Lambda adapter (Mangum)
     Dockerfile.lambda
     app/             # core / schemas / services / api
-  model/             # Trained pipeline (.pkl)
+  model/             # Trained pipeline (.pkl) + operating-point meta (_meta.json)
   frontend/          # Vite + React. See app/frontend/README.md
   infra/             # Terraform. See app/infra/README.md
 .github/             # Prod deploy + OIDC. See .github/DEPLOY.md

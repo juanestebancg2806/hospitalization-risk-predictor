@@ -110,8 +110,9 @@ resource "aws_lambda_function" "api" {
 
   environment {
     variables = {
-      MODEL_PATH = var.model_path
-      LOG_LEVEL  = "INFO"
+      MODEL_PATH      = var.model_path
+      MODEL_META_PATH = var.model_meta_path
+      LOG_LEVEL       = "INFO"
       # Do not set CORS_ORIGINS here. Function URL cors {} already emits
       # Access-Control-Allow-Origin; FastAPI would duplicate it and browsers fail.
     }

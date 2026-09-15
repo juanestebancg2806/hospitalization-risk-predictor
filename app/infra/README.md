@@ -66,6 +66,13 @@ You should have `ecr_repository_url`, `frontend_bucket`, `frontend_url`, `distri
 
 From **`app/`** (parent of `backend/` and `model/`). `--provenance=false --sbom=false` is required: Lambda rejects Docker’s default OCI **index** + attestations.
 
+Ensure `app/model/` contains both artifacts before building:
+
+- `modelo_riesgo_hospitalizacion_v1.pkl`
+- `modelo_riesgo_hospitalizacion_v1_meta.json` (threshold `t_top15`; required at runtime)
+
+`Dockerfile.lambda` copies the whole `model/` directory and sets `MODEL_PATH` + `MODEL_META_PATH`.
+
 ```bash
 cd ../   # app/
 REGION=us-east-1

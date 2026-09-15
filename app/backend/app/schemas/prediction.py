@@ -75,3 +75,5 @@ class PatientFeatures(BaseModel):
 class PredictionResponse(BaseModel):
     probabilidad_hospitalizacion_12m: float
     clase_predicha: int
+    # Operating threshold from model meta (t_top15), not sklearn's default 0.5
+    umbral_usado: float

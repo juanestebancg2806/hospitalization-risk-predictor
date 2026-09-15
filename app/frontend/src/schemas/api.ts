@@ -22,6 +22,7 @@ export type HealthResponse = z.infer<typeof healthResponseSchema>
 export const predictionResponseSchema = z.object({
   probabilidad_hospitalizacion_12m: z.number(),
   clase_predicha: z.number().int(),
+  umbral_usado: z.number(),
 })
 
 export type PredictionResponse = z.infer<typeof predictionResponseSchema>

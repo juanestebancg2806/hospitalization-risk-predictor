@@ -1,6 +1,6 @@
 # Backend API
 
-FastAPI service that loads `app/model/modelo_riesgo_hospitalizacion_v1.pkl` and exposes `/predict`.
+FastAPI service that loads `app/model/modelo_riesgo_hospitalizacion_v1.pkl` plus `modelo_riesgo_hospitalizacion_v1_meta.json` (operating threshold `t_top15`) and exposes `/predict`. Binary class uses that threshold, not sklearn's default 0.5.
 
 ## Architecture (layered)
 

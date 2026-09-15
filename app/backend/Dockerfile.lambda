@@ -21,6 +21,8 @@ COPY backend/handler.py ${LAMBDA_TASK_ROOT}/handler.py
 COPY backend/app ${LAMBDA_TASK_ROOT}/app
 COPY model ${LAMBDA_TASK_ROOT}/model
 
-ENV MODEL_PATH=${LAMBDA_TASK_ROOT}/model/modelo_riesgo_hospitalizacion_v1.pkl
+# Operating threshold lives next to the .pkl (stem + _meta.json).
+ENV MODEL_PATH=${LAMBDA_TASK_ROOT}/model/modelo_riesgo_hospitalizacion_v1.pkl \
+    MODEL_META_PATH=${LAMBDA_TASK_ROOT}/model/modelo_riesgo_hospitalizacion_v1_meta.json
 
 CMD ["handler.handler"]

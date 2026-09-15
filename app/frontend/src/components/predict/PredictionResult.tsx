@@ -47,10 +47,14 @@ export function PredictionResult({ result }: PredictionResultProps) {
           <dt className="inline opacity-70">clase_predicha: </dt>
           <dd className="inline">
             {result.clase_predicha}{' '}
-            ({positive ? 'positivo' : 'negativo'})
+            ({positive ? 'positivo / priorizable' : 'negativo'})
           </dd>
         </div>
         <div>
+          <dt className="inline opacity-70">umbral_usado: </dt>
+          <dd className="inline">{result.umbral_usado.toFixed(4)}</dd>
+        </div>
+        <div className="sm:col-span-2">
           <dt className="inline opacity-70">interpretación UI: </dt>
           <dd className="inline">{tone.label}</dd>
         </div>

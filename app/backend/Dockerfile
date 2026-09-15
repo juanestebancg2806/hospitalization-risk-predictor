@@ -28,7 +28,8 @@ WORKDIR /app
 COPY --from=builder /app /app
 
 ENV PATH="/app/.venv/bin:$PATH" \
-    MODEL_PATH=/app/model/modelo_riesgo_hospitalizacion_v1.pkl
+    MODEL_PATH=/app/model/modelo_riesgo_hospitalizacion_v1.pkl \
+    MODEL_META_PATH=/app/model/modelo_riesgo_hospitalizacion_v1_meta.json
 
 EXPOSE 8000
 

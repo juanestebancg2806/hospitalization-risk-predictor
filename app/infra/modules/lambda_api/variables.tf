@@ -36,3 +36,9 @@ variable "model_path" {
   description = "MODEL_PATH inside the Lambda image."
   default     = "/var/task/model/modelo_riesgo_hospitalizacion_v1.pkl"
 }
+
+variable "model_meta_path" {
+  type        = string
+  description = "MODEL_META_PATH inside the Lambda image (operating threshold JSON)."
+  default     = "/var/task/model/modelo_riesgo_hospitalizacion_v1_meta.json"
+}
