@@ -85,7 +85,7 @@ Production is a **container image** on Lambda with a **Function URL** (`authoriz
 |------|------|
 | `Dockerfile` + Compose | Local API on port 8000 |
 | `Dockerfile.lambda` | Image for ECR / Lambda (`CMD ["handler.handler"]`) |
-| `handler.py` | Mangum adapter only |
+| `handler.py` | Mangum adapter (`lifespan="off"`); loads the pipeline during INIT |
 
 Build context is **`app/`** (backend + `model/`). `uv export --no-emit-project` installs dependencies only; the app is `COPY`’d in.
 
@@ -98,5 +98,7 @@ Image must be `linux/amd64` and a **single Docker/OCI image manifest** (not a Bu
 docker build --platform linux/amd64 --provenance=false --sbom=false \
   -f backend/Dockerfile.lambda -t api:lambda .
 ```
+
+The sklearn pipeline is a **process singleton**. Local Uvicorn loads it on startup. Lambda loads it in INIT (`handler.py`) and Mangum does **not** run FastAPI shutdown per request, so warm invokes skip `joblib.load`. Lambda has no `/dev/shm`; `JOBLIB_MULTIPROCESSING=0` keeps joblib in serial mode (expected, not an error).
 
 GitHub Actions (`deploy-backend.yml`) uses the same Dockerfile and flags. Infra bootstrap (first ECR push + two Terraform applies) is in [`app/infra/README.md`](../infra/README.md).

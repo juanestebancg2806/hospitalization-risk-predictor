@@ -21,6 +21,23 @@ from app.schemas import PatientFeatures, PredictionResponse
 
 logger = logging.getLogger(__name__)
 
+_shared_predictor: RiskPredictor | None = None
+
+
+def get_shared_predictor() -> RiskPredictor:
+    """Process-wide pipeline. Load once; keep it for the Lambda container lifetime."""
+    global _shared_predictor
+    if _shared_predictor is None:
+        from app.core.config import settings
+
+        _shared_predictor = RiskPredictor(
+            settings.model_path,
+            settings.model_meta_path,
+        )
+    if not _shared_predictor.is_loaded:
+        _shared_predictor.load()
+    return _shared_predictor
+
 
 class RiskPredictor:
     """Loads a sklearn pipeline + operating-point metadata and scores patients."""

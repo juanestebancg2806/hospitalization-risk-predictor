@@ -12,7 +12,7 @@ from app.api import api_router, register_exception_handlers
 from app.api.middleware import RequestLoggingMiddleware
 from app.core.config import settings
 from app.core.logging import configure_logging
-from app.services import RiskPredictor
+from app.services import get_shared_predictor
 
 
 logger = logging.getLogger(__name__)
@@ -27,18 +27,15 @@ async def lifespan(app: FastAPI):
         settings.model_path,
         settings.model_meta_path,
     )
-    predictor = RiskPredictor(settings.model_path, settings.model_meta_path)
-    predictor.load()
+    predictor = get_shared_predictor()
     app.state.predictor = predictor
     logger.info(
         "application startup complete threshold=%s",
         predictor.threshold,
     )
     yield
-    logger.info("shutting down application")
-    predictor.unload()
-    app.state.predictor = None
-    logger.info("application shutdown complete")
+    # Do not unload: Lambda freezes this process and reuses it. Uvicorn --reload
+    # starts a new interpreter anyway.
 
 
 def create_app() -> FastAPI:

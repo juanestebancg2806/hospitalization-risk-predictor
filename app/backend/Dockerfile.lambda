@@ -11,7 +11,13 @@ WORKDIR ${LAMBDA_TASK_ROOT}
 
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
-    UV_PYTHON_DOWNLOADS=0
+    UV_PYTHON_DOWNLOADS=0 \
+    JOBLIB_MULTIPROCESSING=0 \
+    LOKY_MAX_CPU_COUNT=1 \
+    OMP_NUM_THREADS=1 \
+    OPENBLAS_NUM_THREADS=1 \
+    MKL_NUM_THREADS=1 \
+    NUMEXPR_NUM_THREADS=1
 
 COPY backend/pyproject.toml backend/uv.lock ./
 RUN uv export --frozen --no-dev --no-hashes --no-emit-project -o /tmp/requirements.txt \
