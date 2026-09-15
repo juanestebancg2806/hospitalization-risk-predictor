@@ -1,2 +1,2 @@
 candidato,auc_roc_test,auc_pr_test,precision_top15pct
-sin_balanceo_LogisticRegression,0.6712273983291298,0.2904726541489007,0.3206
+sin_balanceo_LogisticRegression,0.6711781450097315,0.29045355763964925,0.32008888888888887
