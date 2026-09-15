@@ -18,6 +18,8 @@ export type FieldDef = {
   max?: number
   step?: number
   hint?: string
+  /** Shown in a label tooltip — only for fields that need explanation. */
+  tooltip?: string
 }
 
 export type FormStep = {
@@ -61,6 +63,8 @@ export const FORM_STEPS: FormStep[] = [
           { value: '75_mas', label: '75 años o más' },
         ],
         hint: 'Debe coincidir con la edad.',
+        tooltip:
+          'Elige el rango que corresponde a la edad en años.',
       },
       {
         name: 'regimen_afiliacion',
@@ -71,6 +75,8 @@ export const FORM_STEPS: FormStep[] = [
           { value: 'Especial', label: 'Especial' },
           { value: 'Subsidiado', label: 'Subsidiado' },
         ],
+        tooltip:
+          'Régimen del sistema de salud en Colombia: contributivo (cotizante o beneficiario), subsidiado (SISBÉN) o especial (fuerzas militares, Ecopetrol, magisterio, entre otros).',
       },
       {
         name: 'nivel_educativo',
@@ -104,6 +110,8 @@ export const FORM_STEPS: FormStep[] = [
           { value: 'Jubilado', label: 'Jubilado(a)' },
           { value: 'No_activo', label: 'No activo(a)' },
         ],
+        tooltip:
+          'Ocupado: tiene trabajo. No activo: no busca empleo (hogar, estudio, incapacidad). Jubilado y desempleado van aparte.',
       },
       {
         name: 'personas_hogar',
@@ -159,6 +167,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0.1,
         step: 0.1,
         hint: 'kg/m²',
+        tooltip:
+          'Peso en kilogramos dividido por la talla al cuadrado (m). Un rango habitual de referencia es 18,5–24,9.',
       },
       {
         name: 'perimetro_abdominal_cm',
@@ -167,6 +177,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0.1,
         step: 0.1,
         hint: 'Centímetros',
+        tooltip:
+          'Medida de cintura, a la altura del ombligo, al soltar el aire. Si es alta, suele ir con más riesgo de azúcar y corazón.',
       },
       {
         name: 'tabaquismo',
@@ -203,6 +215,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0,
         step: 5,
         hint: 'Minutos por semana',
+        tooltip:
+          'Minutos de actividad moderada o vigorosa en una semana típica (caminar a paso rápido, deporte, trabajo físico).',
       },
       {
         name: 'calidad_dieta_0_100',
@@ -212,6 +226,8 @@ export const FORM_STEPS: FormStep[] = [
         max: 100,
         step: 1,
         hint: 'Escala de 0 a 100',
+        tooltip:
+          '0 es una alimentación muy poco saludable y 100 una dieta con más frutas, verduras y menos ultraprocesados.',
       },
       {
         name: 'horas_sueno',
@@ -229,6 +245,8 @@ export const FORM_STEPS: FormStep[] = [
         max: 10,
         step: 1,
         hint: 'Escala de 0 a 10',
+        tooltip:
+          'Autopercepción del estrés habitual: 0 ninguno y 10 el máximo imaginable.',
       },
     ],
   },
@@ -260,6 +278,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0,
         step: 1000,
         hint: 'Pesos colombianos (COP)',
+        tooltip:
+          'Lo que el paciente paga de su bolsillo al mes en salud (medicamentos, copagos, consultas), sin contar la cotización a la EPS.',
       },
       {
         name: 'tension_sistolica_mmhg',
@@ -268,6 +288,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0.1,
         step: 1,
         hint: 'mmHg',
+        tooltip:
+          'El valor más alto de la toma de presión (cuando el corazón se contrae). Ejemplo: 120 en 120/80.',
       },
       {
         name: 'tension_diastolica_mmhg',
@@ -276,6 +298,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0.1,
         step: 1,
         hint: 'mmHg',
+        tooltip:
+          'El valor más bajo de la toma (cuando el corazón se relaja). Ejemplo: 80 en 120/80.',
       },
       {
         name: 'hba1c_pct',
@@ -284,6 +308,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0.1,
         step: 0.1,
         hint: 'Porcentaje',
+        tooltip:
+          'Promedio de azúcar en sangre de los últimos 2 o 3 meses. En muchos adultos con diabetes se busca menos de 7 %.',
       },
       {
         name: 'glucosa_ayunas_mg_dl',
@@ -292,6 +318,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0.1,
         step: 1,
         hint: 'mg/dL',
+        tooltip:
+          'Glucosa en sangre tras al menos 8 horas sin comer. Un valor en ayunas alto sugiere mal control.',
       },
       {
         name: 'colesterol_ldl_mg_dl',
@@ -300,6 +328,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0.1,
         step: 1,
         hint: 'mg/dL',
+        tooltip:
+          'Colesterol de baja densidad. Suele llamarse colesterol “malo” porque se acumula en las arterias.',
       },
       {
         name: 'trigliceridos_mg_dl',
@@ -308,6 +338,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0.1,
         step: 1,
         hint: 'mg/dL',
+        tooltip:
+          'Grasas en sangre. Si están altas, aumentan el riesgo para el corazón.',
       },
       {
         name: 'egfr_ml_min_1_73m2',
@@ -316,6 +348,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0.1,
         step: 1,
         hint: 'mL/min/1.73 m²',
+        tooltip:
+          'Cómo filtran los riñones. Un número más bajo significa que están trabajando menos.',
       },
       {
         name: 'albuminuria_categoria',
@@ -326,6 +360,8 @@ export const FORM_STEPS: FormStep[] = [
           { value: 'A2', label: 'A2 — moderadamente elevada' },
           { value: 'A3', label: 'A3 — gravemente elevada' },
         ],
+        tooltip:
+          'Cantidad de albúmina en orina. A1 es normal o leve; A3 indica más proteína de la habitual.',
       },
       {
         name: 'riesgo_cv_10_anios_pct',
@@ -334,6 +370,8 @@ export const FORM_STEPS: FormStep[] = [
         min: 0,
         step: 0.1,
         hint: 'Porcentaje',
+        tooltip:
+          'Probabilidad estimada de un problema del corazón o las arterias en los próximos 10 años.',
       },
     ],
   },
@@ -353,6 +391,8 @@ export const FORM_STEPS: FormStep[] = [
           { value: 'Sulfonilurea', label: 'Sulfonilurea' },
           { value: 'Insulina', label: 'Insulina' },
         ],
+        tooltip:
+          'El tratamiento para la diabetes que más usa el paciente. A veces la metformina se combina con otro medicamento (DPP-4 o SGLT2).',
       },
       {
         name: 'usa_insulina',
@@ -371,24 +411,32 @@ export const FORM_STEPS: FormStep[] = [
           { value: 'Diuretico', label: 'Diurético' },
           { value: 'Combinacion', label: 'Combinación' },
         ],
+        tooltip:
+          'El medicamento principal para la presión. Combinación significa que toma dos o más a la vez.',
       },
       {
         name: 'usa_estatina',
         label: '¿Usa estatina?',
         kind: 'select',
         options: FLAG_OPTIONS,
+        tooltip:
+          'Medicamento para bajar el colesterol LDL (por ejemplo atorvastatina o rosuvastatina).',
       },
       {
         name: 'comorbilidad_erc',
         label: '¿Enfermedad renal crónica?',
         kind: 'select',
         options: FLAG_OPTIONS,
+        tooltip:
+          'Daño en los riñones que ya fue diagnosticado y se mantiene en el tiempo.',
       },
       {
         name: 'comorbilidad_dislipidemia',
         label: '¿Dislipidemia?',
         kind: 'select',
         options: FLAG_OPTIONS,
+        tooltip:
+          'Colesterol o triglicéridos altos, con diagnóstico o en tratamiento.',
       },
       {
         name: 'comorbilidad_obesidad',
@@ -401,12 +449,16 @@ export const FORM_STEPS: FormStep[] = [
         label: '¿Complicación previa de la diabetes?',
         kind: 'select',
         options: FLAG_OPTIONS,
+        tooltip:
+          'Problemas ya diagnosticados por la diabetes, como en ojos, riñones, nervios o pies.',
       },
       {
         name: 'control_glucemico',
         label: '¿Control glucémico adecuado?',
         kind: 'select',
         options: FLAG_OPTIONS,
+        tooltip:
+          'Si el azúcar en sangre está en el rango que acordó con su médico. A menudo se mira la HbA1c, por ejemplo menor a 7 %.',
       },
     ],
   },
