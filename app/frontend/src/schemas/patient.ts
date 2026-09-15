@@ -107,3 +107,4 @@ export const patientFeaturesSchema = z.object({
 })
 
 export type PatientFeatures = z.infer<typeof patientFeaturesSchema>
+export type PatientFieldName = Extract<keyof PatientFeatures, string>

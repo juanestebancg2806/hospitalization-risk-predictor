@@ -5,7 +5,7 @@ import { usePredictWizard } from '../../hooks/usePredictWizard'
 import { ApiErrorDetails, StatusBanner } from '../feedback/StatusBanner'
 import { Button } from '../ui/Button'
 import { FieldControl } from './FieldControl'
-import { PayloadPreview } from './PayloadPreview'
+import { PatientReview } from './PatientReview'
 import { PredictionResult } from './PredictionResult'
 
 export function PredictWizard() {
@@ -25,18 +25,17 @@ export function PredictWizard() {
     submitError,
     result,
     highlightRandom,
-    clearRandomHighlight,
   } = wizard
 
   return (
     <FormProvider {...form}>
       <form className="space-y-8" onSubmit={submit} noValidate>
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="font-mono text-[11px] tracking-wide text-ink-faint uppercase">
+          <p className="font-mono text-caption tracking-wide text-ink-faint uppercase">
             Paso {stepIndex + 1} de {totalSteps}
           </p>
           <Button variant="secondary" type="button" onClick={fillRandom}>
-            Generar paciente aleatorio
+            Cargar paciente de ejemplo
           </Button>
         </div>
 
@@ -49,12 +48,12 @@ export function PredictWizard() {
                 key={step.id}
                 type="button"
                 onClick={() => setStepIndex(index)}
-                className={`border px-2 py-1 font-mono text-[11px] ${
+                className={`rounded-full px-3 py-1 font-mono text-caption ring-1 transition-colors ${
                   active
-                    ? 'border-brand bg-brand-fog text-brand'
+                    ? 'bg-brand-fog text-brand ring-brand/30'
                     : done
-                      ? 'border-line text-ink-muted'
-                      : 'border-line text-ink-faint'
+                      ? 'bg-surface-raised text-ink-muted ring-line'
+                      : 'bg-transparent text-ink-faint ring-line'
                 }`}
               >
                 {String(index + 1).padStart(2, '0')} · {step.title}
@@ -64,51 +63,45 @@ export function PredictWizard() {
           <button
             type="button"
             onClick={() => setStepIndex(REVIEW_STEP_INDEX)}
-            className={`border px-2 py-1 font-mono text-[11px] ${
+            className={`rounded-full px-3 py-1 font-mono text-caption ring-1 transition-colors ${
               isReview
-                ? 'border-brand bg-brand-fog text-brand'
-                : 'border-line text-ink-faint'
+                ? 'bg-brand-fog text-brand ring-brand/30'
+                : 'bg-transparent text-ink-faint ring-line'
             }`}
           >
             {String(totalSteps).padStart(2, '0')} · Revisión
           </button>
         </nav>
 
-        {(highlightRandom || isReview) && (
-          <PayloadPreview
-            highlightRandom={highlightRandom}
-            onClearHighlight={clearRandomHighlight}
-          />
-        )}
-
         {!isReview && currentStep ? (
-          <section className="space-y-5">
-            <header className="space-y-1 border-l-2 border-brand pl-4">
-              <h2 className="text-xl font-semibold tracking-tight">
-                {currentStep.title}
-              </h2>
+          <section className="space-y-5 rounded-2xl bg-surface-raised p-5 shadow-card ring-1 ring-line">
+            <header className="space-y-1">
+              <h2>{currentStep.title}</h2>
               <p className="text-sm text-ink-muted">{currentStep.description}</p>
             </header>
             <div className="grid gap-4 sm:grid-cols-2">
               {currentStep.fields.map((field) => (
-                <FieldControl key={field.name} field={field} />
+                <FieldControl key={String(field.name)} field={field} />
               ))}
             </div>
           </section>
         ) : (
-          <section className="space-y-4">
-            <header className="space-y-1 border-l-2 border-brand pl-4">
-              <h2 className="text-xl font-semibold tracking-tight">
-                Revisión y predicción
-              </h2>
+          <section className="space-y-6 rounded-2xl bg-surface-raised p-5 shadow-card ring-1 ring-line">
+            <header className="space-y-1">
+              <h2>Revisión</h2>
               <p className="text-sm text-ink-muted">
-                Verifica el payload arriba. Puedes volver a cualquier paso para
-                editar, o enviar al modelo.
+                Confirma los datos del paciente. Puedes editar una sección o
+                calcular el riesgo.
               </p>
             </header>
 
+            <PatientReview
+              exampleLoaded={highlightRandom}
+              onEditStep={setStepIndex}
+            />
+
             {submitError ? (
-              <StatusBanner tone="danger" title="No se pudo predecir">
+              <StatusBanner tone="danger" title="No se pudo calcular el riesgo">
                 <ApiErrorDetails error={submitError} />
               </StatusBanner>
             ) : null}
@@ -134,7 +127,7 @@ export function PredictWizard() {
               </Button>
             ) : (
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Calculando…' : 'Obtener predicción'}
+                {isSubmitting ? 'Calculando…' : 'Calcular riesgo'}
               </Button>
             )}
           </div>

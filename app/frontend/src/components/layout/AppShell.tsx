@@ -10,17 +10,21 @@ type AppShellProps = {
 export function AppShell({ children }: AppShellProps) {
   return (
     <div className="min-h-screen bg-canvas text-ink">
-      <header className="border-b border-brand-strong bg-pine text-surface-raised">
-        <div className="mx-auto flex max-w-3xl items-baseline justify-between gap-4 px-6 py-4">
-          <div>
-            <p className="font-mono text-[11px] tracking-[0.14em] text-brand-soft uppercase">
-              Análisis de datos I · MVP
+      <header className="sticky top-0 z-10 border-b border-line/80 bg-surface-raised/85 backdrop-blur-md">
+        <div className="h-1 bg-brand" aria-hidden="true" />
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-6 py-4">
+          <div className="min-w-0">
+            <p className="font-mono text-caption tracking-[0.16em] text-brand uppercase">
+              Evaluación clínica
             </p>
-            <Link to="/" className="text-lg font-semibold tracking-tight">
+            <Link
+              to="/"
+              className="font-display text-lg font-semibold tracking-tight text-ink"
+            >
               Riesgo de hospitalización
             </Link>
           </div>
-          <p className="hidden text-right text-xs text-brand-soft sm:block">
+          <p className="hidden text-right text-xs text-ink-muted sm:block">
             Diabetes · Hipertensión
             <br />
             horizonte 12 meses
@@ -28,13 +32,11 @@ export function AppShell({ children }: AppShellProps) {
         </div>
       </header>
 
-      <div className="mx-auto max-w-3xl px-6 py-10">
-        {children ?? <Outlet />}
-      </div>
+      <div className="mx-auto max-w-4xl px-6 py-10">{children ?? <Outlet />}</div>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto max-w-3xl px-6 py-6 font-mono text-[11px] text-ink-faint">
-          Modelo v1 · pipeline sklearn · datos sintéticos ofuscados (Colombia)
+      <footer className="border-t border-line/80">
+        <div className="mx-auto max-w-4xl px-6 py-6 font-mono text-caption text-ink-faint">
+          Riesgo de hospitalización a 12 meses · diabetes e hipertensión
         </div>
       </footer>
     </div>

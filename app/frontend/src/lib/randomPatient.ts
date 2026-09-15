@@ -18,8 +18,8 @@ function grupoEdadFromAge(age: number): PatientFeatures['grupo_edad'] {
 }
 
 /**
- * Synthetic but coherent patient for easy API testing.
- * Categories match the trained encoder; numeric ranges are clinically plausible MVP ranges.
+ * Coherent example patient. Categories match the trained encoder;
+ * numeric ranges stay clinically plausible.
  */
 export function createRandomPatient(): PatientFeatures {
   const edad = rand(22, 88)

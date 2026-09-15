@@ -1,23 +1,16 @@
-import type { PatientFeatures } from '../schemas/patient'
+import type { PatientFieldName } from '../schemas/patient'
 
 export type SelectOption = { value: string | number; label: string }
 
-function opts(values: readonly string[]): SelectOption[] {
-  return values.map((value) => ({
-    value,
-    label: value.replaceAll('_', ' '),
-  }))
-}
-
 const FLAG_OPTIONS: SelectOption[] = [
-  { value: 0, label: 'No (0)' },
-  { value: 1, label: 'Sí (1)' },
+  { value: 0, label: 'No' },
+  { value: 1, label: 'Sí' },
 ]
 
 export type FieldKind = 'number' | 'select'
 
 export type FieldDef = {
-  name: keyof PatientFeatures
+  name: PatientFieldName
   label: string
   kind: FieldKind
   options?: SelectOption[]
@@ -38,7 +31,7 @@ export type FormStep = {
 export const FORM_STEPS: FormStep[] = [
   {
     id: 'contexto',
-    title: 'Contexto sociodemográfico',
+    title: 'Datos sociodemográficos',
     description: 'Demografía y condiciones de vida.',
     fields: [
       {
@@ -61,38 +54,56 @@ export const FORM_STEPS: FormStep[] = [
         name: 'grupo_edad',
         label: 'Grupo de edad',
         kind: 'select',
-        options: opts(['18_44', '45_59', '60_74', '75_mas']),
-        hint: 'Debe ser coherente con la edad.',
+        options: [
+          { value: '18_44', label: '18 a 44 años' },
+          { value: '45_59', label: '45 a 59 años' },
+          { value: '60_74', label: '60 a 74 años' },
+          { value: '75_mas', label: '75 años o más' },
+        ],
+        hint: 'Debe coincidir con la edad.',
       },
       {
         name: 'regimen_afiliacion',
         label: 'Régimen de afiliación',
         kind: 'select',
-        options: opts(['Contributivo', 'Especial', 'Subsidiado']),
+        options: [
+          { value: 'Contributivo', label: 'Contributivo' },
+          { value: 'Especial', label: 'Especial' },
+          { value: 'Subsidiado', label: 'Subsidiado' },
+        ],
       },
       {
         name: 'nivel_educativo',
         label: 'Nivel educativo',
         kind: 'select',
-        options: opts([
-          'Primaria',
-          'Secundaria',
-          'Sin_escolaridad',
-          'Tecnico_tecnologico',
-          'Universitario_posgrado',
-        ]),
+        options: [
+          { value: 'Sin_escolaridad', label: 'Sin escolaridad' },
+          { value: 'Primaria', label: 'Primaria' },
+          { value: 'Secundaria', label: 'Secundaria' },
+          { value: 'Tecnico_tecnologico', label: 'Técnico o tecnológico' },
+          { value: 'Universitario_posgrado', label: 'Universitario o posgrado' },
+        ],
       },
       {
         name: 'estado_civil',
         label: 'Estado civil',
         kind: 'select',
-        options: opts(['Casado_union_libre', 'Separado_viudo', 'Soltero']),
+        options: [
+          { value: 'Soltero', label: 'Soltero(a)' },
+          { value: 'Casado_union_libre', label: 'Casado(a) o unión libre' },
+          { value: 'Separado_viudo', label: 'Separado(a) o viudo(a)' },
+        ],
       },
       {
         name: 'situacion_laboral',
         label: 'Situación laboral',
         kind: 'select',
-        options: opts(['Desempleado', 'Jubilado', 'No_activo', 'Ocupado']),
+        options: [
+          { value: 'Ocupado', label: 'Ocupado(a)' },
+          { value: 'Desempleado', label: 'Desempleado(a)' },
+          { value: 'Jubilado', label: 'Jubilado(a)' },
+          { value: 'No_activo', label: 'No activo(a)' },
+        ],
       },
       {
         name: 'personas_hogar',
@@ -105,7 +116,11 @@ export const FORM_STEPS: FormStep[] = [
         name: 'tipo_vivienda',
         label: 'Tipo de vivienda',
         kind: 'select',
-        options: opts(['Arriendo', 'Familiar_otro', 'Propia']),
+        options: [
+          { value: 'Propia', label: 'Propia' },
+          { value: 'Arriendo', label: 'Arriendo' },
+          { value: 'Familiar_otro', label: 'Familiar u otra' },
+        ],
       },
     ],
   },
@@ -118,63 +133,85 @@ export const FORM_STEPS: FormStep[] = [
         name: 'diabetes_tipo',
         label: 'Tipo de diabetes',
         kind: 'select',
-        options: opts(['Tipo_1', 'Tipo_2']),
+        options: [
+          { value: 'Tipo_1', label: 'Tipo 1' },
+          { value: 'Tipo_2', label: 'Tipo 2' },
+        ],
       },
       {
         name: 'anios_desde_dx_diabetes',
-        label: 'Años desde dx diabetes',
+        label: 'Años desde el diagnóstico de diabetes',
         kind: 'number',
         min: 0,
         step: 0.5,
       },
       {
         name: 'anios_desde_dx_hipertension',
-        label: 'Años desde dx hipertensión',
+        label: 'Años desde el diagnóstico de hipertensión',
         kind: 'number',
         min: 0,
         step: 0.5,
       },
-      { name: 'imc', label: 'IMC', kind: 'number', min: 0.1, step: 0.1 },
       {
-        name: 'perimetro_abdominal_cm',
-        label: 'Perímetro abdominal (cm)',
+        name: 'imc',
+        label: 'Índice de masa corporal (IMC)',
         kind: 'number',
         min: 0.1,
         step: 0.1,
+        hint: 'kg/m²',
+      },
+      {
+        name: 'perimetro_abdominal_cm',
+        label: 'Perímetro abdominal',
+        kind: 'number',
+        min: 0.1,
+        step: 0.1,
+        hint: 'Centímetros',
       },
       {
         name: 'tabaquismo',
         label: 'Tabaquismo',
         kind: 'select',
-        options: opts(['Actual', 'Exfumador', 'Nunca']),
+        options: [
+          { value: 'Nunca', label: 'Nunca ha fumado' },
+          { value: 'Exfumador', label: 'Exfumador(a)' },
+          { value: 'Actual', label: 'Fumador(a) actual' },
+        ],
       },
       {
         name: 'cigarrillos_dia',
-        label: 'Cigarrillos / día',
+        label: 'Cigarrillos al día',
         kind: 'number',
         min: 0,
         step: 1,
       },
       {
         name: 'alcohol_frecuencia',
-        label: 'Frecuencia de alcohol',
+        label: 'Consumo de alcohol',
         kind: 'select',
-        options: opts(['Diario', 'Mensual_o_menor', 'Nunca', 'Semanal']),
+        options: [
+          { value: 'Nunca', label: 'Nunca' },
+          { value: 'Mensual_o_menor', label: 'Mensual o menos' },
+          { value: 'Semanal', label: 'Semanal' },
+          { value: 'Diario', label: 'Diario' },
+        ],
       },
       {
         name: 'actividad_fisica_min_sem',
-        label: 'Actividad física (min/sem)',
+        label: 'Actividad física semanal',
         kind: 'number',
         min: 0,
         step: 5,
+        hint: 'Minutos por semana',
       },
       {
         name: 'calidad_dieta_0_100',
-        label: 'Calidad de dieta (0–100)',
+        label: 'Calidad de la dieta',
         kind: 'number',
         min: 0,
         max: 100,
         step: 1,
+        hint: 'Escala de 0 a 100',
       },
       {
         name: 'horas_sueno',
@@ -182,14 +219,16 @@ export const FORM_STEPS: FormStep[] = [
         kind: 'number',
         min: 0,
         step: 0.5,
+        hint: 'Horas por noche',
       },
       {
         name: 'estres_0_10',
-        label: 'Estrés (0–10)',
+        label: 'Nivel de estrés',
         kind: 'number',
         min: 0,
         max: 10,
         step: 1,
+        hint: 'Escala de 0 a 10',
       },
     ],
   },
@@ -200,109 +239,124 @@ export const FORM_STEPS: FormStep[] = [
     fields: [
       {
         name: 'consultas_atencion_primaria_12m',
-        label: 'Consultas APS (12m)',
+        label: 'Consultas de atención primaria',
         kind: 'number',
         min: 0,
         step: 1,
+        hint: 'Últimos 12 meses',
       },
       {
         name: 'urgencias_12m',
-        label: 'Urgencias (12m)',
+        label: 'Visitas a urgencias',
         kind: 'number',
         min: 0,
         step: 1,
+        hint: 'Últimos 12 meses',
       },
       {
         name: 'gasto_bolsillo_cop_mensual',
-        label: 'Gasto de bolsillo (COP/mes)',
+        label: 'Gasto de bolsillo mensual',
         kind: 'number',
         min: 0,
         step: 1000,
+        hint: 'Pesos colombianos (COP)',
       },
       {
         name: 'tension_sistolica_mmhg',
-        label: 'Tensión sistólica (mmHg)',
+        label: 'Tensión arterial sistólica',
         kind: 'number',
         min: 0.1,
         step: 1,
+        hint: 'mmHg',
       },
       {
         name: 'tension_diastolica_mmhg',
-        label: 'Tensión diastólica (mmHg)',
+        label: 'Tensión arterial diastólica',
         kind: 'number',
         min: 0.1,
         step: 1,
+        hint: 'mmHg',
       },
       {
         name: 'hba1c_pct',
-        label: 'HbA1c (%)',
+        label: 'Hemoglobina glicosilada (HbA1c)',
         kind: 'number',
         min: 0.1,
         step: 0.1,
+        hint: 'Porcentaje',
       },
       {
         name: 'glucosa_ayunas_mg_dl',
-        label: 'Glucosa en ayunas (mg/dL)',
+        label: 'Glucosa en ayunas',
         kind: 'number',
         min: 0.1,
         step: 1,
+        hint: 'mg/dL',
       },
       {
         name: 'colesterol_ldl_mg_dl',
-        label: 'Colesterol LDL (mg/dL)',
+        label: 'Colesterol LDL',
         kind: 'number',
         min: 0.1,
         step: 1,
+        hint: 'mg/dL',
       },
       {
         name: 'trigliceridos_mg_dl',
-        label: 'Triglicéridos (mg/dL)',
+        label: 'Triglicéridos',
         kind: 'number',
         min: 0.1,
         step: 1,
+        hint: 'mg/dL',
       },
       {
         name: 'egfr_ml_min_1_73m2',
-        label: 'eGFR (mL/min/1.73m²)',
+        label: 'Filtrado glomerular (eGFR)',
         kind: 'number',
         min: 0.1,
         step: 1,
+        hint: 'mL/min/1.73 m²',
       },
       {
         name: 'albuminuria_categoria',
         label: 'Albuminuria',
         kind: 'select',
-        options: opts(['A1', 'A2', 'A3']),
+        options: [
+          { value: 'A1', label: 'A1 — normal o ligeramente elevada' },
+          { value: 'A2', label: 'A2 — moderadamente elevada' },
+          { value: 'A3', label: 'A3 — gravemente elevada' },
+        ],
       },
       {
         name: 'riesgo_cv_10_anios_pct',
-        label: 'Riesgo CV 10 años (%)',
+        label: 'Riesgo cardiovascular a 10 años',
         kind: 'number',
         min: 0,
         step: 0.1,
+        hint: 'Porcentaje',
       },
     ],
   },
   {
     id: 'tratamiento',
     title: 'Tratamiento y comorbilidades',
-    description: 'Medicamentos, comorbilidades y control glucémico.',
+    description: 'Medicamentos, otras enfermedades y control glucémico.',
     fields: [
       {
         name: 'medicamento_antidiabetico_principal',
         label: 'Antidiabético principal',
         kind: 'select',
-        options: opts([
-          'Insulina',
-          'Metformina',
-          'Metformina_DPP4',
-          'Metformina_SGLT2',
-          'Sulfonilurea',
-        ]),
+        options: [
+          { value: 'Metformina', label: 'Metformina' },
+          { value: 'Metformina_DPP4', label: 'Metformina + inhibidor DPP-4' },
+          { value: 'Metformina_SGLT2', label: 'Metformina + inhibidor SGLT2' },
+          { value: 'Sulfonilurea', label: 'Sulfonilurea' },
+          { value: 'Insulina', label: 'Insulina' },
+        ],
       },
       {
         name: 'usa_insulina',
-        label: 'Usa insulina',
+        label: '¿Usa insulina?',
         kind: 'select',
         options: FLAG_OPTIONS,
       },
@@ -310,47 +364,47 @@ export const FORM_STEPS: FormStep[] = [
         name: 'medicamento_antihipertensivo_principal',
         label: 'Antihipertensivo principal',
         kind: 'select',
-        options: opts([
-          'ARA_II',
-          'Calcioantagonista',
-          'Combinacion',
-          'Diuretico',
-          'IECA',
-        ]),
+        options: [
+          { value: 'IECA', label: 'IECA' },
+          { value: 'ARA_II', label: 'ARA II' },
+          { value: 'Calcioantagonista', label: 'Calcioantagonista' },
+          { value: 'Diuretico', label: 'Diurético' },
+          { value: 'Combinacion', label: 'Combinación' },
+        ],
       },
       {
         name: 'usa_estatina',
-        label: 'Usa estatina',
+        label: '¿Usa estatina?',
         kind: 'select',
         options: FLAG_OPTIONS,
       },
       {
         name: 'comorbilidad_erc',
-        label: 'Comorbilidad ERC',
+        label: '¿Enfermedad renal crónica?',
         kind: 'select',
         options: FLAG_OPTIONS,
       },
       {
         name: 'comorbilidad_dislipidemia',
-        label: 'Comorbilidad dislipidemia',
+        label: '¿Dislipidemia?',
         kind: 'select',
         options: FLAG_OPTIONS,
       },
       {
         name: 'comorbilidad_obesidad',
-        label: 'Comorbilidad obesidad',
+        label: '¿Obesidad?',
         kind: 'select',
         options: FLAG_OPTIONS,
       },
       {
         name: 'complicacion_diabetes_previa',
-        label: 'Complicación diabetes previa',
+        label: '¿Complicación previa de la diabetes?',
         kind: 'select',
         options: FLAG_OPTIONS,
       },
       {
         name: 'control_glucemico',
-        label: 'Control glucémico',
+        label: '¿Control glucémico adecuado?',
         kind: 'select',
         options: FLAG_OPTIONS,
       },
@@ -360,7 +414,34 @@ export const FORM_STEPS: FormStep[] = [
 
 export const REVIEW_STEP_INDEX = FORM_STEPS.length
 
-export function fieldNamesForStep(stepIndex: number): (keyof PatientFeatures)[] {
+export function fieldNamesForStep(stepIndex: number): PatientFieldName[] {
   if (stepIndex < 0 || stepIndex >= FORM_STEPS.length) return []
   return FORM_STEPS[stepIndex].fields.map((f) => f.name)
+}
+
+const numberEs = new Intl.NumberFormat('es-CO', { maximumFractionDigits: 2 })
+const currencyEs = new Intl.NumberFormat('es-CO', {
+  style: 'currency',
+  currency: 'COP',
+  maximumFractionDigits: 0,
+})
+
+/** Human-readable value for review — option labels, not encoder codes. */
+export function formatFieldDisplay(field: FieldDef, value: unknown): string {
+  if (value === '' || value === null || value === undefined) return '—'
+  if (typeof value === 'number' && Number.isNaN(value)) return '—'
+
+  const match = field.options?.find(
+    (option) => option.value === value || String(option.value) === String(value),
+  )
+  if (match) return match.label
+
+  if (typeof value === 'number') {
+    if (field.name === 'gasto_bolsillo_cop_mensual') {
+      return currencyEs.format(value)
+    }
+    return numberEs.format(value)
+  }
+
+  return String(value)
 }

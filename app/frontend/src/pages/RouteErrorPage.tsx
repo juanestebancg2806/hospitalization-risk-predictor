@@ -20,11 +20,11 @@ export function RouteErrorPage() {
   }
 
   return (
-    <div className="space-y-4 border-l-2 border-risk-high pl-5">
-      <p className="font-mono text-[11px] tracking-wide text-risk-high uppercase">
+    <div className="space-y-4">
+      <p className="font-mono text-caption tracking-wide text-risk-high uppercase">
         Error de navegación
       </p>
-      <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
+      <h1>{title}</h1>
       <p className="max-w-xl text-ink-muted">{detail}</p>
       <TextLink to="/">← Volver al inicio</TextLink>
     </div>
@@ -33,13 +33,11 @@ export function RouteErrorPage() {
 
 export function NotFoundPage() {
   return (
-    <div className="space-y-4 border-l-2 border-line-strong pl-5">
-      <p className="font-mono text-[11px] tracking-wide text-ink-faint uppercase">
+    <div className="space-y-4">
+      <p className="font-mono text-caption tracking-wide text-ink-faint uppercase">
         404
       </p>
-      <h1 className="text-3xl font-semibold tracking-tight">
-        Página no encontrada
-      </h1>
+      <h1>Página no encontrada</h1>
       <p className="max-w-xl text-ink-muted">
         La ruta no existe en esta aplicación.
       </p>

@@ -11,7 +11,7 @@ import {
 } from '../lib/patientFormMeta'
 import { createRandomPatient } from '../lib/randomPatient'
 import type { PredictionResponse } from '../schemas/api'
-import type { PatientFeatures } from '../schemas/patient'
+import type { PatientFeatures, PatientFieldName } from '../schemas/patient'
 
 const emptyDefaults = {
   sexo: '',
@@ -56,7 +56,7 @@ const emptyDefaults = {
   complicacion_diabetes_previa: '' as unknown as 0,
   riesgo_cv_10_anios_pct: NaN,
   control_glucemico: '' as unknown as 0,
-} satisfies Record<keyof PatientFeatures, unknown>
+} satisfies Record<PatientFieldName, unknown>
 
 export function usePredictWizard() {
   const form = useForm<PatientFeatures>({
@@ -125,6 +125,5 @@ export function usePredictWizard() {
     result,
     clearResult: () => setResult(null),
     highlightRandom,
-    clearRandomHighlight: () => setHighlightRandom(false),
   }
 }

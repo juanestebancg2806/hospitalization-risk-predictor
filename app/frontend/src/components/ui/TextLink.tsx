@@ -10,7 +10,7 @@ export function TextLink({ to, children }: TextLinkProps) {
   return (
     <Link
       to={to}
-      className="inline-block font-mono text-xs text-brand underline-offset-2 hover:underline"
+      className="inline-block font-mono text-xs text-brand underline-offset-4 hover:underline"
     >
       {children}
     </Link>

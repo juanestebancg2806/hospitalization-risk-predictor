@@ -1,14 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Hospitalization risk predictor">
-  <rect width="32" height="32" rx="7" fill="#0F766E"/>
-  <!-- Pulse / risk trend -->
+  <rect width="32" height="32" rx="8" fill="#0B8A86"/>
   <path
     d="M4 18 H9 L11.5 11 L15 23 L18.5 14 L21 18 H28"
     fill="none"
-    stroke="#F0FDFA"
+    stroke="#F7FFFE"
     stroke-width="2.25"
     stroke-linecap="round"
     stroke-linejoin="round"
   />
-  <!-- Small clinical marker -->
-  <circle cx="25.5" cy="18" r="2.25" fill="#5EEAD4"/>
+  <circle cx="25.5" cy="18" r="2.25" fill="#C5EEEC"/>
 </svg>

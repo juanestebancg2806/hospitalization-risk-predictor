@@ -6,23 +6,23 @@ type PredictionResultProps = {
 
 function riskTone(prob: number): {
   label: string
-  className: string
+  pillClass: string
 } {
   if (prob >= 0.4) {
     return {
-      label: 'Banda alta (referencia MVP)',
-      className: 'border-risk-high bg-risk-high-soft text-risk-high',
+      label: 'Riesgo alto',
+      pillClass: 'bg-risk-high-soft text-risk-high',
     }
   }
   if (prob >= 0.2) {
     return {
-      label: 'Banda media (referencia MVP)',
-      className: 'border-risk-mid bg-risk-mid-soft text-risk-mid',
+      label: 'Riesgo medio',
+      pillClass: 'bg-risk-mid-soft text-risk-mid',
     }
   }
   return {
-    label: 'Banda baja (referencia MVP)',
-    className: 'border-risk-low bg-risk-low-soft text-risk-low',
+    label: 'Riesgo bajo',
+    pillClass: 'bg-risk-low-soft text-risk-low',
   }
 }
 
@@ -32,31 +32,33 @@ export function PredictionResult({ result }: PredictionResultProps) {
   const positive = result.clase_predicha === 1
 
   return (
-    <section className={`space-y-3 border-l-4 px-4 py-4 ${tone.className}`}>
-      <p className="font-mono text-[11px] tracking-wide uppercase">
-        Resultado · horizonte 12 meses
-      </p>
-      <p className="text-4xl font-semibold tracking-tight tabular-nums">
+    <section className="space-y-3 rounded-2xl bg-surface-raised px-5 py-5 shadow-card ring-1 ring-line">
+      <div className="flex flex-wrap items-center gap-2">
+        <p className="font-mono text-caption tracking-wide text-ink-faint uppercase">
+          Resultado · horizonte 12 meses
+        </p>
+        <span
+          className={`rounded-full px-2.5 py-0.5 font-mono text-caption font-medium ${tone.pillClass}`}
+        >
+          {tone.label}
+        </span>
+      </div>
+      <p className="text-4xl font-semibold tracking-tight text-ink tabular-nums">
         {pct}%
       </p>
-      <p className="text-sm opacity-90">
-        Probabilidad de hospitalización estimada por el pipeline.
+      <p className="text-sm text-ink-muted">
+        Probabilidad estimada de hospitalización en los próximos 12 meses.
       </p>
-      <dl className="grid gap-1 border-t border-current/20 pt-3 font-mono text-xs sm:grid-cols-2">
+      <dl className="grid gap-1 border-t border-line pt-3 text-sm text-ink-muted sm:grid-cols-2">
         <div>
-          <dt className="inline opacity-70">clase_predicha: </dt>
-          <dd className="inline">
-            {result.clase_predicha}{' '}
-            ({positive ? 'positivo / priorizable' : 'negativo'})
+          <dt className="inline text-ink-faint">Clasificación: </dt>
+          <dd className="inline text-ink">
+            {positive ? 'Priorizable' : 'No priorizable'}
           </dd>
         </div>
         <div>
-          <dt className="inline opacity-70">umbral_usado: </dt>
-          <dd className="inline">{result.umbral_usado.toFixed(4)}</dd>
-        </div>
-        <div className="sm:col-span-2">
-          <dt className="inline opacity-70">interpretación UI: </dt>
-          <dd className="inline">{tone.label}</dd>
+          <dt className="inline text-ink-faint">Banda de riesgo: </dt>
+          <dd className="inline text-ink">{tone.label}</dd>
         </div>
       </dl>
     </section>

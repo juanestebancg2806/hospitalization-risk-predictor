@@ -1,14 +1,38 @@
 # Frontend (Vite + React + TypeScript + Tailwind)
 
-Spanish MVP UI (“clinical cartography”): health gate, multi-step patient wizard, random sample payload, `POST /predict`.
+Spanish UI: service availability check, multi-step patient form, example patient, `POST /predict`.
 
 ## Stack
 
 - React + TypeScript + Vite
-- Tailwind CSS v4 (`@tailwindcss/vite`) + IBM Plex
+- Tailwind CSS v4 (`@tailwindcss/vite`); Rubik + Source Serif 4 + JetBrains Mono via `@fontsource`
 - Axios (`src/api/httpClient.ts`)
 - react-router-dom (layout + `Outlet`, error/404)
 - zod + react-hook-form + `@hookform/resolvers` (messages via `lib/zodEs.ts`)
+
+## Typography
+
+Fonts ship from `package.json` (`@fontsource/*`), imported in `src/index.css` — not from Google Fonts in `index.html`.
+
+| Role | Family | Tailwind |
+|------|--------|----------|
+| UI / body | Rubik | `font-sans` (default) |
+| Page titles | Source Serif 4 | `font-display` (`h1`) |
+| Meta, JSON, chips | JetBrains Mono | `font-mono` |
+
+Scale (`@theme` in `index.css`): `caption` 11px → `xs` 12 → `sm` 14 → `base` 16 → `lg` 18 → `xl` 20 → `3xl`/`4xl` titles. Use `text-caption` for chips/hints/footer; `text-sm` for labels and buttons; `text-base` for lead copy. Do not add `text-[11px]`.
+
+## Color
+
+Cool slate neutrals + one cyan-teal (`brand`). Do not tint grays green (that reads as 2010s “wellness EMR”). Risk bands are labeled pills (`risk-high` / `mid` / `low`); never reuse `brand` as a traffic light.
+
+| Token | Role |
+|-------|------|
+| `canvas` | Page wash (`#f3f6f8`) |
+| `surface-raised` | Cards / header |
+| `ink` | Body text (navy-ink, not olive) |
+| `brand` | CTA, focus, product accent |
+| `shadow-card` / `shadow-cta` | Elevation, not hard document borders |
 
 ## Architecture
 
@@ -63,7 +87,7 @@ npm run preview  # optional local preview of dist/
 Route `/predict` (`PredictWizard` + `usePredictWizard`):
 
 1. Sociodemográfico → antecedentes → clínica → tratamiento → revisión
-2. **Generar paciente aleatorio** fills the form, jumps to review, shows JSON (`lib/randomPatient.ts`)
+2. **Cargar paciente de ejemplo** fills the form, jumps to review (`lib/randomPatient.ts`)
 3. Submit → `POST /predict` (`api/predict.ts`)
 
 ## Production deploy

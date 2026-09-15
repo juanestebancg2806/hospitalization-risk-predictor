@@ -4,11 +4,11 @@ type Variant = 'primary' | 'secondary' | 'ghost'
 
 const variantClass: Record<Variant, string> = {
   primary:
-    'bg-brand text-surface-raised hover:bg-brand-strong disabled:cursor-not-allowed disabled:bg-line disabled:text-ink-faint',
+    'rounded-xl bg-brand text-on-brand shadow-cta hover:bg-brand-strong disabled:cursor-not-allowed disabled:bg-line disabled:text-ink-faint disabled:shadow-none',
   secondary:
-    'border border-line-strong bg-surface-raised text-ink hover:border-brand hover:text-brand disabled:cursor-not-allowed disabled:opacity-50',
+    'rounded-xl border border-line bg-surface-raised text-ink shadow-sm hover:border-brand hover:text-brand disabled:cursor-not-allowed disabled:opacity-50',
   ghost:
-    'text-brand underline-offset-2 hover:underline disabled:cursor-not-allowed disabled:opacity-50',
+    'rounded-xl text-brand hover:bg-brand-fog disabled:cursor-not-allowed disabled:opacity-50',
 }
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 
 const primaryCtaClass =
-  'inline-flex bg-brand px-5 py-2.5 text-sm font-medium text-surface-raised hover:bg-brand-strong'
+  'inline-flex rounded-xl bg-brand px-5 py-2.5 text-sm font-medium text-on-brand shadow-cta transition-colors hover:bg-brand-strong'
 const primaryCtaDisabledClass =
-  'inline-flex cursor-not-allowed bg-line px-5 py-2.5 text-sm font-medium text-ink-faint'
+  'inline-flex cursor-not-allowed rounded-xl bg-line px-5 py-2.5 text-sm font-medium text-ink-faint'
 
 type PrimaryButtonLinkProps = {
   to: string
